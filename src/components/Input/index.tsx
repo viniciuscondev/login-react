@@ -47,17 +47,18 @@ const InputField = styled.label`
 interface InputProps {
     type: string,
     name: string,
-    placeholder: string
+    placeholder: string,
+    value?: string,
+    handleInputChange: Function
 }
 
-export default function Input({ type, name, placeholder }: InputProps) {
+export default function Input({ type, name, placeholder, value, handleInputChange }: InputProps) {
     const [isActive, setIsActive] = useState(false);
-    const [value, setValue] = useState('');
-
+    
     function handleTextChange(text: string) {
-        setValue(text);
+        let inputValue = text;
 
-        if (text !== '') {
+        if (inputValue !== '') {
             setIsActive(true);
         } else {
             setIsActive(false);
@@ -66,7 +67,13 @@ export default function Input({ type, name, placeholder }: InputProps) {
     
     return (
         <InputField>
-            <input type={ `${type}` } name={ `${name}` } value={value} onChange={(e) => handleTextChange(e.target.value)} required />
+            <input
+                type={ `${type}` }
+                name={ `${name}` }
+                value={value}
+                onChange={event => { handleTextChange(event.target.value); handleInputChange(event) }}
+                required
+            />
             <span className={ isActive ? "Active" : "" }>{ placeholder }</span>
         </InputField>
     );

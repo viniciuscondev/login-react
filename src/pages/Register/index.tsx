@@ -7,6 +7,7 @@ import Background from '../../components/Background';
 import MainContainer from '../../components/MainContainer';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
+import api from '../../services/api';
 
 const Title = styled.h1`
     color: ${({ theme }) => theme.colors.black};
@@ -26,23 +27,47 @@ const Form = styled.form`
     }
 `;
 
-function Login() {
+function Register() {
     const [inputs, setInputs] = useState({
+        name: "",
         email: "",
-        password: ""        
+        password: "",
+        passwordConfirmation: ""
     });
 
-    const { email, password } = inputs;
+    const { name, email, password, passwordConfirmation } = inputs;
 
     function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
         setInputs({ ...inputs, [event.target.name] : event.target.value });
     }
 
+    async function handleSubmit(event: React.FormEvent) {
+        event.preventDefault();
+
+        try {
+            const data = { name, email, password, passwordConfirmation };
+
+            const response = await api.post('users/register', data);
+
+            console.log(response);
+            
+        } catch (error) {
+            console.error(error.message);
+        }
+    }
+
     return (
         <Background>
             <MainContainer>
-                <Title>Login</Title>
-                <Form>
+                <Title>Crie uma nova conta</Title>
+                <Form onSubmit={handleSubmit}>
+                    <Input 
+                        type="text"
+                        name="name"
+                        value={name}
+                        placeholder="Nome"
+                        handleInputChange={handleInputChange}
+                    />
                     <Input
                         type="email"
                         name="email"
@@ -56,13 +81,20 @@ function Login() {
                         value={password}
                         placeholder="Senha"
                         handleInputChange={handleInputChange}
-                    />                    
-                    <Button title="Entrar" icon={<FiLogIn/>} />                    
-                    <Link to='/register' >Criar nova conta</Link>
+                    />
+                    <Input
+                        type="password"
+                        name="passwordConfirmation"
+                        value={passwordConfirmation}
+                        placeholder="Confirmação da senha"
+                        handleInputChange={handleInputChange}
+                    />
+                    <Button title="Criar conta" icon={<FiLogIn/>} />                    
+                    <Link to='/' >Já está cadastrado? Faça o login</Link>
                 </Form>
             </MainContainer>
         </Background>
     );
 }
 
-export default Login;
+export default Register;

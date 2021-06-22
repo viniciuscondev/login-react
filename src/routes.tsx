@@ -2,6 +2,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
 
 import Login from './pages/Login';
+import Register from './pages/Register';
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -30,6 +31,11 @@ function Routes() {
       <ThemeProvider theme={theme}>
         <GlobalStyle />
         <Switch>
+          <Route
+            exact
+            path="/register"
+            component={Register}
+          />
           <Route
             exact
             path="/"

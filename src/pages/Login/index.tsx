@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FiLogIn } from 'react-icons/fi';
 import styled from 'styled-components';
+import { ToastContainer, toast } from 'react-toastify';
 
 import Background from '../../components/Background';
 import MainContainer from '../../components/MainContainer';
@@ -26,7 +27,7 @@ const Form = styled.form`
     }
 `;
 
-function Login() {
+function Login({ setAuth }: any) {
     const [inputs, setInputs] = useState({
         email: "",
         password: ""        
@@ -38,11 +39,40 @@ function Login() {
         setInputs({ ...inputs, [event.target.name] : event.target.value });
     }
 
+    async function handleSubmit(event: React.FormEvent) {
+        event.preventDefault();
+
+        try {
+            
+            const data = { email, password };
+
+            const response = await fetch("http://localhost:3333/users/login", {
+                method: "POST",
+                headers: { "Content-type": "application/json" },
+                body: JSON.stringify(data)
+            });
+
+            const parseResponse = await response.json();
+
+            if (parseResponse.token) {
+                localStorage.setItem("token", parseResponse.token);
+                setAuth(true);
+                toast.info("Login realizado com sucesso!", {position: toast.POSITION.TOP_CENTER});            
+            } else {
+                setAuth(false);
+                toast.error(parseResponse.error, {position: toast.POSITION.TOP_CENTER});                
+            }
+            
+        } catch (error) {
+            console.error(error.message);
+        }
+    }
+
     return (
         <Background>
             <MainContainer>
                 <Title>Login</Title>
-                <Form>
+                <Form onSubmit={handleSubmit}>
                     <Input
                         type="email"
                         name="email"
@@ -61,6 +91,7 @@ function Login() {
                     <Link to='/register' >Criar nova conta</Link>
                 </Form>
             </MainContainer>
+        <ToastContainer />
         </Background>
     );
 }

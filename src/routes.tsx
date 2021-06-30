@@ -1,8 +1,10 @@
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
 
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Dashboard from './pages/Dashboard';
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -26,6 +28,34 @@ const theme = {
 }
 
 function Routes() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  function setAuth(boolean: boolean): void {
+    setIsAuthenticated(boolean);
+  }
+
+  async function isAuth() {
+    try {
+      const response = await fetch("http://localhost:3333/users/verify", {
+        method: "GET",
+        headers: { token: localStorage.token }
+      });
+
+      const parseResponse = await response.json();
+
+      console.log(parseResponse);
+
+      parseResponse === true ? setIsAuthenticated(true) : setIsAuthenticated(false);
+      
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+
+  useEffect(() => {
+    isAuth();
+  }, []);
+
   return (
     <BrowserRouter>
       <ThemeProvider theme={theme}>
@@ -38,8 +68,13 @@ function Routes() {
           />
           <Route
             exact
+            path="/dashboard"
+            render={props => isAuthenticated ? <Dashboard {...props} setAuth={setAuth} /> : <Redirect to="/" />}
+          />
+          <Route
+            exact
             path="/"
-            component={Login}
+            render={props => !isAuthenticated ? <Login {...props} setAuth={setAuth} /> : <Redirect to="/dashboard" />}
           />
         </Switch>
       </ThemeProvider>

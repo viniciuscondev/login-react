@@ -7,7 +7,7 @@ const MainContainer = styled.div`
     align-items: center;
     border: 1px solid ${({ theme }) => theme.colors.black};
     border-radius: 10px;
-    padding: 26px;
+    padding: 26px;    
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, .7));
 `;
 

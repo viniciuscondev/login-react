@@ -35,11 +35,13 @@ const ButtonMain = styled.button`
 interface ButtonProps {
     title: string;
     icon: JSX.Element;
+    onClick?: React.MouseEventHandler,
+    width?: string,
 }
 
-function Button({ title, icon }: ButtonProps) {
+function Button({ title, icon, onClick, width}: ButtonProps) {
     return (
-        <ButtonMain>
+        <ButtonMain onClick={onClick} style={{width}}>
             <span>{ icon }</span>
             <strong>{ title }</strong>
         </ButtonMain>

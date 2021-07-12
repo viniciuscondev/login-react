@@ -87,7 +87,7 @@ function Login({ setAuth }: any) {
                         placeholder="Senha"
                         handleInputChange={handleInputChange}
                     />                    
-                    <Button title="Entrar" icon={<FiLogIn/>} />                    
+                    <Button margin="20px 0" title="Entrar" icon={<FiLogIn/>} />                    
                     <Link to='/register' >Criar nova conta</Link>
                 </Form>
             </MainContainer>

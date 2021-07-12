@@ -5,7 +5,7 @@ const InputField = styled.label`
     position: relative;
     font-size: 18px;
     padding-top: 20px;
-    margin-bottom: 5px;
+    //margin-bottom: 5px;
 
     input {
         border: 2px solid ${({ theme }) => theme.colors.gray};

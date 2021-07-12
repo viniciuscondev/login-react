@@ -107,7 +107,7 @@ function Register() {
                         placeholder="Confirmação da senha"
                         handleInputChange={handleInputChange}
                     />
-                    <Button title="Criar conta" icon={<FiUserCheck/>} />
+                    <Button margin="20px 0" title="Criar conta" icon={<FiUserCheck/>} />
                     <Link to='/' >Já está cadastrado? Faça o login</Link>
                 </Form>                
             </MainContainer>

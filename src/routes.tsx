@@ -43,8 +43,6 @@ function Routes() {
 
       const parseResponse = await response.json();
 
-      console.log(parseResponse);
-
       parseResponse === true ? setIsAuthenticated(true) : setIsAuthenticated(false);
       
     } catch (error) {

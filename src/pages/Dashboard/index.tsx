@@ -104,9 +104,14 @@ function Dashboard({ setAuth }: any) {
                 body: JSON.stringify(data)
             });
 
-            console.log(newPassword);
+            const parseResponse = await response.json();            
+            
+            if(response.status === 200) {
+                toast.info("Senha alterada com sucesso!", {position: toast.POSITION.TOP_CENTER});
+            } else {
+                toast.error(parseResponse.error, {position: toast.POSITION.TOP_CENTER});
+            }
 
-            toast.info("Senha alterada com sucesso!", {position: toast.POSITION.TOP_CENTER});
         } catch (error) {
             console.error(error.message);
         }

@@ -5,6 +5,7 @@ import { createGlobalStyle, ThemeProvider } from 'styled-components';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
+import api from '../src/services/api';
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -36,14 +37,14 @@ function Routes() {
 
   async function isAuth() {
     try {
-      const response = await fetch("http://localhost:3333/users/verify", {
-        method: "GET",
-        headers: { token: localStorage.token }
+
+      const response = await api.get('users/verify', {
+        headers: {
+          token: localStorage.token
+        }
       });
 
-      const parseResponse = await response.json();
-
-      parseResponse === true ? setIsAuthenticated(true) : setIsAuthenticated(false);
+      response.data === true ? setIsAuthenticated(true) : setIsAuthenticated(false);
       
     } catch (error) {
       console.error(error.message);

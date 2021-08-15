@@ -8,7 +8,7 @@ import Background from '../../components/Background';
 import MainContainer from '../../components/MainContainer';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
-//import api from '../../services/api';
+import api from '../../services/api';
 import 'react-toastify/dist/ReactToastify.min.css';
 
 const Title = styled.h1`
@@ -52,21 +52,15 @@ function Register() {
             
             const data = { name, email, password, passwordConfirmation };
 
-            const response = await fetch("http://localhost:3333/users/register", {
-                method: "POST",
-                headers: { "Content-type": "application/json" },
-                body: JSON.stringify(data)
-            });
+            const response = await api.post('users/register', data);
 
-            const parseResponse = await response.json();
-
-            if (parseResponse.status === "success") {
+            if (response.data.status === "success") {
                 toast.info("Conta criada com sucesso!", {position: toast.POSITION.TOP_CENTER});
                 setTimeout(() => { history.push('/'); }, 6000);                
             } else {
-                console.log(parseResponse);
-                toast.error(parseResponse.error, {position: toast.POSITION.TOP_CENTER});
-                toast.error(parseResponse[0].error, {position: toast.POSITION.TOP_CENTER});
+                console.log(response.data);
+                toast.error(response.data.error, {position: toast.POSITION.TOP_CENTER});
+                toast.error(response.data[0].error, {position: toast.POSITION.TOP_CENTER});
             }
             
         } catch (error) {

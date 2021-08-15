@@ -7,6 +7,7 @@ import Button from '../../components/Button';
 import Background from '../../components/Background';
 import MainContainer from '../../components/MainContainer';
 import Input from '../../components/Input';
+import api from '../../services/api';
 
 const Header = styled.header`
     background-color: #0a1035;
@@ -58,14 +59,14 @@ function Dashboard({ setAuth }: any) {
 
     async function getProfileData() {
         try {
-            const response = await fetch("http://localhost:3333/users/profile/", {
-                method: "GET",
-                headers: { token: localStorage.token }
-            });
 
-            const parseResponse = await response.json();
+            const response = await api.get('users/profile', {
+                headers: {
+                    token: localStorage.token
+                }
+            });
                         
-            setName(parseResponse.name);
+            setName(response.data.name);
         } catch (err) {
             console.error(err.message);
         }
@@ -80,9 +81,11 @@ function Dashboard({ setAuth }: any) {
 
     async function deleteAccount() {
         try {
-            await fetch("http://localhost:3333/users/delete", {
-                method: "DELETE",
-                headers: { token: localStorage.token },
+            
+            await api.delete('users/delete', {
+                headers: {
+                    token: localStorage.token
+                }
             });
 
             localStorage.removeItem("token");
@@ -98,18 +101,16 @@ function Dashboard({ setAuth }: any) {
         try {
             const data = { newPassword };
 
-            const response = await fetch("http://localhost:3333/users/update", {
-                method: "PUT",
-                headers: { token: localStorage.token, "Content-type": "application/json" },
-                body: JSON.stringify(data)
+            const response = await api.put('users/update', data, {
+                headers: {
+                    token: localStorage.token
+                }
             });
-
-            const parseResponse = await response.json();            
             
             if(response.status === 200) {
                 toast.info("Senha alterada com sucesso!", {position: toast.POSITION.TOP_CENTER});
             } else {
-                toast.error(parseResponse.error, {position: toast.POSITION.TOP_CENTER});
+                toast.error(response.data.error, {position: toast.POSITION.TOP_CENTER});
             }
 
         } catch (error) {

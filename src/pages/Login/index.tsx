@@ -8,6 +8,7 @@ import Background from '../../components/Background';
 import MainContainer from '../../components/MainContainer';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
+import api from '../../services/api';
 
 const Title = styled.h1`
     color: ${({ theme }) => theme.colors.black};
@@ -46,21 +47,15 @@ function Login({ setAuth }: any) {
             
             const data = { email, password };
 
-            const response = await fetch("http://localhost:3333/users/login", {
-                method: "POST",
-                headers: { "Content-type": "application/json" },
-                body: JSON.stringify(data)
-            });
+            const response = await api.post('users/login', data);
 
-            const parseResponse = await response.json();
-
-            if (parseResponse.token) {
-                localStorage.setItem("token", parseResponse.token);
+            if (response.data.token) {
+                localStorage.setItem("token", response.data.token);
                 setAuth(true);
                 toast.info("Login realizado com sucesso!", {position: toast.POSITION.TOP_CENTER});            
             } else {
                 setAuth(false);
-                toast.error(parseResponse.error, {position: toast.POSITION.TOP_CENTER});                
+                toast.error(response.data.error, {position: toast.POSITION.TOP_CENTER});                
             }
             
         } catch (error) {

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { FiLogIn } from 'react-icons/fi';
 import styled from 'styled-components';
 import { ToastContainer, toast } from 'react-toastify';
+import { CircularProgress } from '@material-ui/core';
 
 import Background from '../../components/Background';
 import MainContainer from '../../components/MainContainer';
@@ -29,6 +30,8 @@ const Form = styled.form`
 `;
 
 function Login({ setAuth }: any) {
+    const [loading, setLoading] = useState(false);
+
     const [inputs, setInputs] = useState({
         email: "",
         password: ""        
@@ -46,12 +49,16 @@ function Login({ setAuth }: any) {
         try {
             
             const data = { email, password };
+            
+            setLoading(true);
 
             const response = await api.post('users/login', data, {
                 validateStatus: function (status) {
                     return status < 500;
                   }
             });
+
+            setLoading(false);
 
             if (response.data.token) {
                 localStorage.setItem("token", response.data.token);
@@ -71,7 +78,7 @@ function Login({ setAuth }: any) {
     return (
         <Background>
             <MainContainer>
-                <Title>Login</Title>
+                <Title>Login {loading ? <CircularProgress size={28} /> : ""}</Title>                
                 <Form onSubmit={handleSubmit}>
                     <Input
                         type="email"
@@ -87,7 +94,7 @@ function Login({ setAuth }: any) {
                         placeholder="Senha"
                         handleInputChange={handleInputChange}
                     />                    
-                    <Button margin="20px 0" title="Entrar" icon={<FiLogIn/>} />                    
+                    <Button margin="20px 0" title="Entrar" icon={<FiLogIn/>} />
                     <Link to='/register' >Criar nova conta</Link>
                 </Form>
             </MainContainer>

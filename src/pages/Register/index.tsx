@@ -3,6 +3,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { FiUserCheck } from 'react-icons/fi';
 import styled from 'styled-components';
 import { ToastContainer, toast } from 'react-toastify';
+import { CircularProgress } from '@material-ui/core';
 
 import Background from '../../components/Background';
 import MainContainer from '../../components/MainContainer';
@@ -30,6 +31,8 @@ const Form = styled.form`
 `;
 
 function Register() {
+    const [loading, setLoading] = useState(false);
+
     const history = useHistory();
 
     const [inputs, setInputs] = useState({
@@ -52,11 +55,15 @@ function Register() {
             
             const data = { name, email, password, passwordConfirmation };
 
+            setLoading(true);
+
             const response = await api.post('users/register', data, {
                 validateStatus: function (status) {
                     return status < 500;
                   }
             });
+
+            setLoading(false);
 
             if (response.data.status === "success") {
                 toast.info("Conta criada com sucesso!", {position: toast.POSITION.TOP_CENTER});
@@ -75,7 +82,7 @@ function Register() {
     return (
         <Background>
             <MainContainer>
-                <Title>Crie uma nova conta</Title>
+                <Title>Crie uma nova conta {loading ? <CircularProgress size={28} /> : ""}</Title>
                 <Form onSubmit={handleSubmit}>
                     <Input 
                         type="text"

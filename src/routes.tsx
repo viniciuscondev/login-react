@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import { HashRouter, Switch, Route, Redirect } from 'react-router-dom';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
 
 import Login from './pages/Login';
@@ -56,7 +56,7 @@ function Routes() {
   }, []);
 
   return (
-    <BrowserRouter>
+    <HashRouter>
       <ThemeProvider theme={theme}>
         <GlobalStyle />
         <Switch>
@@ -77,7 +77,7 @@ function Routes() {
           />
         </Switch>
       </ThemeProvider>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 

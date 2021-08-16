@@ -47,7 +47,11 @@ function Login({ setAuth }: any) {
             
             const data = { email, password };
 
-            const response = await api.post('users/login', data);
+            const response = await api.post('users/login', data, {
+                validateStatus: function (status) {
+                    return status < 500;
+                  }
+            });
 
             if (response.data.token) {
                 localStorage.setItem("token", response.data.token);
@@ -55,11 +59,12 @@ function Login({ setAuth }: any) {
                 toast.info("Login realizado com sucesso!", {position: toast.POSITION.TOP_CENTER});            
             } else {
                 setAuth(false);
-                toast.error(response.data.error, {position: toast.POSITION.TOP_CENTER});                
+                toast.error(response.data.error, {position: toast.POSITION.TOP_CENTER});
             }
+        
             
         } catch (error) {
-            console.error(error.message);
+            console.error(error.response);            
         }
     }
 

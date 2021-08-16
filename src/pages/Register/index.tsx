@@ -52,7 +52,11 @@ function Register() {
             
             const data = { name, email, password, passwordConfirmation };
 
-            const response = await api.post('users/register', data);
+            const response = await api.post('users/register', data, {
+                validateStatus: function (status) {
+                    return status < 500;
+                  }
+            });
 
             if (response.data.status === "success") {
                 toast.info("Conta criada com sucesso!", {position: toast.POSITION.TOP_CENTER});

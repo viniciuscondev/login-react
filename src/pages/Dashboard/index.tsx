@@ -102,6 +102,9 @@ function Dashboard({ setAuth }: any) {
             const data = { newPassword };
 
             const response = await api.put('users/update', data, {
+                validateStatus: function (status) {
+                    return status < 500;
+                  },
                 headers: {
                     token: localStorage.token
                 }

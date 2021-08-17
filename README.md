@@ -1,4 +1,4 @@
-# React login
+# Login React
 [![login react](https://img.shields.io/badge/viniciuscondev-login--react-blue)](https://github.com/viniciuscondev/login-react)
 [![licence mit](https://img.shields.io/github/license/viniciuscondev/login-react?color=blue)](https://github.com/viniciuscondev/login-react/blob/main/LICENSE)
 

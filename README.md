@@ -6,9 +6,9 @@ Front-end created in [ReactJS](https://github.com/facebook/react) for an account
 
 The backend was created in NodeJS and is available [here](https://github.com/viniciuscondev/ts-api-boilerplate).
 
-## Instalação ##
+## Project installation ##
 
-Versões do node e yarn utilizadas no projeto
+Node and yarn versions used in the project
 ```
 node -v
 v14.17.5
@@ -17,25 +17,31 @@ yarn -v
 1.22.10
 ```
 
-2. Acessar a pasta do projeto
+1. Clone repository on your machine
+
+```
+git clone https://github.com/viniciuscondev/login-backend.git
+```
+
+2. Access the project directory
 
 ```
 cd login-react
 ```
 
-3. Baixar as dependências do projeto
+3. Download project dependencies
 
 ```
 yarn
 ```
 
-4. Rodar o projeto em ambiente de desenvolvimento
+4. Run the project in development environment
 
 ```
 yarn start
 ```
 
-## Bibliotecas utilizadas ##
+## Libraries used in this project ##
 * [axios](https://github.com/axios/axios)
 * [react-icons](https://github.com/react-icons/react-icons)
 * [styled-components](https://github.com/styled-components/-styled-components)
